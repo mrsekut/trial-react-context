@@ -1,18 +1,20 @@
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
-const { Provider, Consumer } = createContext('light');
+// const { Provider, Consumer } = createContext('light');
+const N = createContext('light');
 
-const Context = () => (
-  <Consumer>{value => <div>values: {value}</div>}</Consumer>
-);
+const Context = () => {
+  const value = useContext(N);
+  return <div>values: {value}</div>;
+  // return <NContext.Consumer>{v => <div>values: {v}</div>}</NContext.Consumer>;
+};
 
-// このコンポーネントを仲介しているが、わざわざpropsを流さなくても渡る
 const WhileComponent = () => <Context />;
 
 export const ContextComponent = () => (
-  <Provider value={'dark'}>
+  <N.Provider value={'dark'}>
     <WhileComponent />
-  </Provider>
+  </N.Provider>
 );
 
 export default ContextComponent;
