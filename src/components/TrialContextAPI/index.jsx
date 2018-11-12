@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 
 // theme-context.js
 // これが伝搬させたいデータ
@@ -15,16 +15,18 @@ const ThemeContext = React.createContext(
 
 // themed-button.js
 // 孫
-const ThemedButton = () => (
-  <ThemeContext.Consumer>
-    {({ num, increment }) => (
-      <>
-        <p>{num}</p>
-        <button onClick={increment}>increment</button>
-      </>
-    )}
-  </ThemeContext.Consumer>
-);
+const ThemedButton = () => {
+  return (
+    <ThemeContext.Consumer>
+      {({ num, increment }) => (
+        <>
+          <p>{num}</p>
+          <button onClick={increment}>increment</button>
+        </>
+      )}
+    </ThemeContext.Consumer>
+  );
+};
 
 // 子
 // ここでは従来のようにpropsでデータを渡していない
@@ -32,29 +34,24 @@ const Toolbar = () => <ThemedButton />;
 
 // app.js
 // 親
-export default class ContextComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      num: store.num,
-      increment: this.increment
-    };
-  }
+const ContextComponent = () => {
+  useContext(ThemeContext);
+  const [num, setNum] = useState(0);
 
-  increment = () => {
-    this.setState({
-      num: this.state.num + 1
-    });
-  };
-
-  render() {
-    return (
-      <ThemeContext.Provider value={this.state}>
-        <Toolbar />
-      </ThemeContext.Provider>
-    );
-  }
-}
+  return (
+    <ThemeContext.Provider
+      value={{
+        num,
+        increment: () => {
+          setNum(num + 1);
+        }
+      }}
+    >
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+};
+export default ContextComponent;
 
 // ==========================================
 // ==========================================yypp
