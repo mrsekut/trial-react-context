@@ -1,100 +1,71 @@
-import React, { useState, useContext } from 'react';
+// import React, { useState, useContext } from 'react';
 
-// theme-context.js
-// これが伝搬させたいデータ
-// store的ななにか
-const store = {
-  num: 0,
-  increment: () => {}
-};
+// // theme-context.js
+// // これが伝搬させたいデータ
+// // store的ななにか
+// const store = {
+//   num: 0,
+//   increment: () => {}
+// };
 
-// contextを作る
-const ThemeContext = React.createContext(
-  store.num // default value
-);
+// // contextを作る
+// const ThemeContext = React.createContext(
+//   store.num // default value
+// );
 
-// themed-button.js
-// 孫
-const ThemedButton = () => {
-  return (
-    <ThemeContext.Consumer>
-      {({ num, increment }) => (
-        <>
-          <p>{num}</p>
-          <button onClick={increment}>increment</button>
-        </>
-      )}
-    </ThemeContext.Consumer>
-  );
-};
-
-// 子
-// ここでは従来のようにpropsでデータを渡していない
-const Toolbar = () => <ThemedButton />;
-
-// app.js
-// 親
-const ContextComponent = () => {
-  useContext(ThemeContext);
-  const [num, setNum] = useState(0);
-
-  return (
-    <ThemeContext.Provider
-      value={{
-        num,
-        increment: () => {
-          setNum(num + 1);
-        }
-      }}
-    >
-      <Toolbar />
-    </ThemeContext.Provider>
-  );
-};
-export default ContextComponent;
-
-// ==========================================
-// ==========================================yypp
-// ==========================================yypp
-// ==========================================yypp
-
-// export default class ContextComponent extends React.Component {
-//   render() {
-//     return <Toolbar theme="dark" />;
-//   }
-// }
-
-// function Toolbar(props) {
-//   // The Toolbar component must take an extra "theme" prop
-//   // and pass it to the ThemedButton. This can become painful
-//   // if every single button in the app needs to know the theme
-//   // because it would have to be passed through all components.
+// // themed-button.js
+// // 孫
+// const ThemedButton = () => {
 //   return (
-//     <div>
-//       <ThemedButton theme={props.theme} />
-//     </div>
+//     <ThemeContext.Consumer>
+//       {({ num, increment }) => (
+//         <>
+//           <p>{num}</p>
+//           <button onClick={increment}>increment</button>
+//         </>
+//       )}
+//     </ThemeContext.Consumer>
 //   );
-// }
+// };
 
-// class ThemedButton extends React.Component {
-//   render() {
-//     return <button theme={this.props.theme} />;
-//   }
-// }
+// // 子
+// // ここでは従来のようにpropsでデータを渡していない
+// const Toolbar = () => <ThemedButton />;
+
+// // app.js
+// // 親
+// const ContextComponent = () => {
+//   useContext(ThemeContext);
+//   const [num, setNum] = useState(0);
+
+//   return (
+//     <ThemeContext.Provider
+//       value={{
+//         num,
+//         increment: () => {
+//           setNum(num + 1);
+//         }
+//       }}
+//     >
+//       <Toolbar />
+//     </ThemeContext.Provider>
+//   );
+// };
+// export default ContextComponent;
 
 // ==========================================
 // https://qiita.com/loverails/items/50126e874b24ff984471
 // ==========================================
 // import React from 'react';
 
-// // const store = {
-// //   state: {
-// //     foo: 1
-// //   },
-// //   update: cb => {
-// //     this.state = cb;
-// //   }
-// // };
+// const store = {
+//   state: {
+//     foo: 1
+//   },
+//   update: cb => {
+//     this.state = cb;
+//   }
+// };
 
 // const store = {
 //   foo: 1
@@ -135,3 +106,96 @@ export default ContextComponent;
 //     );
 //   }
 // }
+
+import React from 'react';
+
+// store的ななにか
+const store = new class {
+  state = {
+    num: 0
+  };
+  actions = fn => {
+    console.log(this.state);
+    this.state = fn(this.state);
+  };
+  // actions: fn => {
+  //   this.state = fn(this.state);
+  // }
+  // actions: {
+  //   increment: () => {
+  //     this.state.num += 1;
+  //   }
+  // }
+}();
+
+// contextを作る
+const CounterContext = React.createContext({ num: 0 });
+
+// 親
+export default class Parent extends React.Component {
+  render() {
+    return (
+      <CounterContext.Provider value={store}>
+        <p>parenat: {store.state.num}</p>
+        <p>num</p>
+        <Child />
+      </CounterContext.Provider>
+    );
+  }
+}
+
+// 子
+const Child = () => <Grandson />;
+
+// 孫
+// // これはclass
+class Grandson extends React.Component {
+  static contextType = CounterContext;
+  render() {
+    const { state, actions } = { ...this.context };
+    console.log(state);
+    console.log(actions);
+    return (
+      <>
+        <p>{state.num}</p>
+        <button
+          onClick={() =>
+            actions(s => {
+              // console.log(s);
+              return {
+                ...s,
+                num: s.num + 1
+              };
+            })
+          }
+        >
+          increment
+        </button>
+      </>
+    );
+  }
+}
+
+// Consumer使う版
+// const Grandson = () => (
+//   <CounterContext.Consumer>
+//     {({ state, actions }) => (
+//       <div>
+//         <p>{state.num}</p>
+//         <button
+//           onClick={() =>
+//             actions(s => {
+//               console.log(s);
+//               return {
+//                 ...s,
+//                 num: s.num += 1
+//               };
+//             })
+//           }
+//         >
+//           increment
+//         </button>
+//       </div>
+//     )}
+//   </CounterContext.Consumer>
+// );

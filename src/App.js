@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import ContextComponent from './components/TrialContextAPI/index';
-import configureStore from './store';
+import Parent from './components/TrialContextAPI/index';
+// import TrialReactReduxContext from './components/TrialReactReduxContext';
+import store from './store';
 import Container from './containers/index';
 
 const App = () => (
-  <Provider store={configureStore()}>
+  <Provider store={store}>
     <p>Trial React ContetAPI</p>
-    <ContextComponent />
+    <Parent />
+
+    <p>ducks</p>
     <Container />
   </Provider>
 );
