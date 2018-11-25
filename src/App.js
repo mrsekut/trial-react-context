@@ -7,6 +7,7 @@ import Container from './containers/index';
 
 import ConventionParent from './components/ConventionalPattern/index';
 import SimpleContextAPIParent from './components/SimpleContextAPI/index';
+import ExtendedParent from './components/SlightlyExtendedContextAPI/index';
 
 const App = () => (
   <Provider store={store}>
@@ -14,6 +15,8 @@ const App = () => (
     <ConventionParent />
     <h2>Context APIを使ってみる</h2>
     <SimpleContextAPIParent />
+    <h2>少し拡張した例</h2>
+    <ExtendedParent />
     <p>Trial React ContetAPI</p>
   </Provider>
 );
