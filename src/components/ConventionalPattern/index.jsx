@@ -1,3 +1,4 @@
+// 従来のReactのDriling Props
 import * as React from 'react';
 
 export default class ConventionParent extends React.Component {
@@ -24,3 +25,27 @@ const GreatGrandchild = ({ count, word }) => (
     <div>word: {word}</div>
   </>
 );
+
+// use render props
+// import * as React from 'react';
+
+// export default class ConventionParent extends React.Component {
+//   render() {
+//     const count = 1;
+//     const word = 'hello';
+//     const greatGrandchild = (
+//       <>
+//         <div>count: {count}</div>
+//         <div>word: {word}</div>
+//       </>
+//     );
+
+//     return <Child ggc={greatGrandchild} />;
+//   }
+// }
+
+// // 子
+// const Child = ({ ggc }) => <Grandson ggc={ggc} />;
+
+// // 孫
+// const Grandson = ({ ggc }) => ggc;
