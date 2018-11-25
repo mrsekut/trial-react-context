@@ -6,11 +6,14 @@ import store from './store';
 import Container from './containers/index';
 
 import ConventionParent from './components/ConventionalPattern/index';
+import SimpleContextAPIParent from './components/SimpleContextAPI/index';
 
 const App = () => (
   <Provider store={store}>
     <h2>従来のReactのバケツリレー</h2>
     <ConventionParent />
+    <h2>Context APIを使ってみる</h2>
+    <SimpleContextAPIParent />
     <p>Trial React ContetAPI</p>
   </Provider>
 );
