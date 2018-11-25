@@ -4,7 +4,7 @@ import React, { createContext, useState, useContext } from 'react';
 const CounterContext = createContext();
 
 // 親
-const Parent = () => {
+const HooksParent = () => {
   const [num, setNum] = useState(0);
   return (
     <CounterContext.Provider
@@ -17,15 +17,16 @@ const Parent = () => {
     </CounterContext.Provider>
   );
 };
-export default Parent;
+export default HooksParent;
 
 // 子
 const Child = () => <Grandson />;
 
 // 孫
 const Grandson = () => {
-  const counter = useContext(CounterContext);
+  const counter = useContext(CounterContext); // hooksを使う
   return (
+    // いつも通りの書き方できる
     <>
       <p>{counter.num}</p>
       <button onClick={counter.increment}>increment</button>
