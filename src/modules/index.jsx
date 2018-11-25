@@ -28,16 +28,16 @@ export default reducer;
 // Action Creator
 // =============================
 
-export const incrementAmount = amount => ({
+export const increment = num => ({
   type: ActionNames.INC,
   payload: {
-    plusAmount: amount
+    plusAmount: num
   }
 });
 
-export const decrementAmount = amount => ({
+export const decrement = num => ({
   type: ActionNames.DEC,
   payload: {
-    minusAmount: amount
+    minusAmount: num
   }
 });

@@ -1,39 +1,21 @@
-// App.js
-// export default class App extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = { store };
-//   }
+import React from 'react';
+import { ReactReduxContext } from 'react-redux';
 
-//   render() {
-//     return (
-//       <Provider store={this.state.store}>
-//         <TrialReactReduxContext />
-//       </Provider>
-//     );
-//   }
-// }
+const TrialReactReduxContext = () => (
+  <ReactReduxContext.Consumer>
+    {({ storeState }) => <>num: {storeState.reducer.num}</>}
+  </ReactReduxContext.Consumer>
+);
 
-import * as React from 'react';
-import { ReactReduxContext } from 'react-redux/lib/components/Context';
+export default TrialReactReduxContext;
 
-export default class TrialReactReduxContext extends React.Component {
-  render() {
-    return (
-      <ReactReduxContext.Consumer>
-        {reducer => {
-          console.log(reducer);
-          return (
-            <>
-              <p>sssss</p>
-              {/* <p>num: {num}</p>
-              <button onClick={() => incrementAmount()}>
-                react redux context
-              </button> */}
-            </>
-          );
-        }}
-      </ReactReduxContext.Consumer>
-    );
-  }
-}
+// // use useContext
+// import React, { useContext } from 'react';
+// import { ReactReduxContext } from 'react-redux';
+
+// const TrialReactReduxContext = () => {
+//   const context = useContext(ReactReduxContext);
+//   return <div>num: {context.storeState.reducer.num}</div>;
+// };
+
+// export default TrialReactReduxContext;

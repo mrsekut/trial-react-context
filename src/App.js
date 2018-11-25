@@ -2,10 +2,15 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 
+// components
 import ConventionParent from './components/ConventionalPattern/index';
 import SimpleContextAPIParent from './components/SimpleContextAPI/index';
 import ExtendedParent from './components/SlightlyExtendedContextAPI/index';
 import HooksParent from './components/TrialContextAPI/index';
+import TrialReactReduxContext from './components/TrialReactReduxContext/index';
+
+// ducks container
+import Container from './containers/index';
 
 const App = () => (
   <Provider store={store}>
@@ -17,7 +22,13 @@ const App = () => (
     <ExtendedParent />
     <h2>useContextを使う</h2>
     <HooksParent />
-    <p>Trial React ContetAPI</p>
+    <h2>Ducksのサンプル</h2>
+    <Container />
+    <h2>reac-reduxを使う</h2>
+    <p>
+      同じstateを見ているので上の「+」ボタンを押せばインクリメントされますね
+    </p>
+    <TrialReactReduxContext />
   </Provider>
 );
 
